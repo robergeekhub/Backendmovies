@@ -1,9 +1,27 @@
-const express = require('express');
-
+const express = require('express'); //Requiere la librería express
 const app = express();
+const PORT = 3000;
 
-const PORT = process.env.PORT || 3000;
 
-app.use(express.json());
+app.use(express.json()); //middleware: parsea el body JSON y evita que req.body sea undefined
 
-app.listen(PORT, () => console.log(`Server UP on port ${PORT}`));
+const MoviesRouter = require('./router/movieRouter');
+const UsersRouter = require('./router/userRouter');
+
+
+
+
+
+
+app.get('/',(req, res) => res.send(req.user))
+
+//Endpoint de películas
+app.use('/Movies', MoviesRouter);
+
+//Endpoint de usuarios
+app.use('/users', UsersRouter);
+
+//Endpoint de 
+
+
+app.listen(PORT, () => console.log('server running on port ' + PORT));
