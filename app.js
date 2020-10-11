@@ -1,4 +1,4 @@
-const express = require('express'); //Requiere la librería express
+const express = require('express'); //Requiere de la librería express
 const app = express();
 const PORT = process.env.PORT || 3000;
 
