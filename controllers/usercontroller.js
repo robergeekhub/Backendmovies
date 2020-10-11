@@ -1,6 +1,6 @@
 const { User } = require('../models');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+
 const userController = {
     async signup(req, res) {
         try {
@@ -34,15 +34,7 @@ const userController = {
                     message: 'Wrong credentials'
                 })
             }
-            const token = jwt.sign({
-                id: user.id
-            }, '1234', {
-                expiresIn: '30d'
-            });
-            console.log(token)
-            user.token = token;
-            await User.save()
-            res.send(user);
+
         } catch (error) {
             console.error(error);
             res.status(500).send({
@@ -55,7 +47,7 @@ const userController = {
                 where: {
                     email: req.params.email
                 }, attributes: {
-                    exclude: ['token', 'id']
+                    exclude: ['id']
                 }
             })
             .then(user => res.send(user))
