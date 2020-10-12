@@ -34,7 +34,7 @@ const OrderController = {
             const order = await Order.create({
                 status: 'Rented',
                 returnDate,
-                UserId: req.user.id
+                
 
          });
          const movie = await order.addMovie(req.body.movies)
