@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.belongsTo(models.User);
-      this.belongsToMany(models.movie, { through: models.OrderMovie });
+      this.belongsToMany(models.Movie, { through: models.OrderMovie });
     }
   };
   Order.init({

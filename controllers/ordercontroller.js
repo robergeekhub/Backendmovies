@@ -1,4 +1,4 @@
-const { Order, movie, User } = require('../models');
+const { Order, Movie, User } = require('../models');
 
 const OrderController = {
     async getAll(req, res) {
@@ -8,7 +8,7 @@ const OrderController = {
                     exclude: ['UserId']
                 },
                 include: [{
-                    model: movie,
+                    model: Movie,
                     attributes: ['title'],
                     through: {
                         attributes: []
@@ -28,17 +28,22 @@ const OrderController = {
         }
     }, 
     async create (req, res) {
-        try {
+        try { 
             const returnDate = new Date();
             returnDate.setDate(returnDate.getDate() + 2)
+
             const order = await Order.create({
                 status: 'Rented',
                 returnDate,
+                UserId:req.body.UserId
+                
                 
 
          });
          const movie = await order.addMovie(req.body.movies)
                 
+         
+
          res.send({
              message: 'Order successfully completed'
          })
