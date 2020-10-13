@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const OrderController = require('../controllers/orderController');
+const OrderController = require('../controllers/ordercontroller');
 
 
 //Ruta para mostrar todos los pedidos

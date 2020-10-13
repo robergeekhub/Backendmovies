@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const MovieController = require('../controllers/movieController');
+const MovieController = require('../controllers/moviecontroller');
 
 //Ruta para mostrar todas las películas
 router.get('/', MovieController.getAll);
