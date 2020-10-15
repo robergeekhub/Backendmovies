@@ -1,10 +1,10 @@
-const { movie, Sequelize} = require('../models');
-
+const { Movie, Sequelize} = require('../models');
+// Los modelos Siempre en Mayusculas
 const Op = Sequelize.Op;
 
 const MovieController = {
     getAll(req, res) {
-        movie.findAll()
+        Movie.findAll()
             .then(movies => res.send(movies))
             .catch(error => {
                 console.error(error);
@@ -15,7 +15,7 @@ const MovieController = {
     },
 
     getById(req, res) {
-        movie.findByPk(req.params.id)
+        Movie.findByPk(req.params.id)
             .then(movie => res.send(movie))
             .catch(error => {
                 console.error(error);
@@ -26,7 +26,7 @@ const MovieController = {
     },
 
     getByTitle(req, res) {
-        movie.findAll({
+        Movie.findAll({
                 where: {
                     title: {
                         [Op.like]: `%${req.params.title}%`
@@ -43,7 +43,7 @@ const MovieController = {
     },
 
     create(req, res) {
-        movie.create(req.body)
+        Movie.create(req.body)
             .then(movie => res.send(movie))
             .catch(error => {
                 console.error(error);
