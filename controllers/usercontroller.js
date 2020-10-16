@@ -1,11 +1,11 @@
-const { User } = require('../models');
+const {User} = require('../models');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
-const userController = {
+const UserController = {
     async signup(req, res) {
         try {
             req.body.password = await bcrypt.hash(req.body.password, 9)
-            // const user Esta es el una variable que guarda lo que sequelize pilla de BD. Las variables en minuscula siempre
             const user = await User.create(req.body);
             res.status(201).send(user)
         } catch (error) {
@@ -34,52 +34,70 @@ const userController = {
                     message: 'Wrong credentials'
                 })
             }
-
+            const token = jwt.sign({
+                id: user.id
+            }, '1234', {
+                expiresIn: '30d'
+            });
+            console.log(token)
+            user.token = token;
+            await user.save()
+            res.send(user);
         } catch (error) {
             console.error(error);
             res.status(500).send({
                 message: 'There was a problem trying to login'
             })
         }
+
     },
-    getByEmail(req, res) {
-        user.findAll({
+
+    async getByEmail(req, res) {
+        try {
+            const email = await User.findOne({
                 where: {
                     email: req.params.email
-                }, attributes: {
-                    exclude: ['id']
+                },
+                attributes: {
+                    exclude: ['token', 'id']
                 }
             })
-            .then(user => res.send(user))
-            .catch(error => {
-                console.error(error);
-                res.status(500).send({
-                    message: 'There was a problem trying to get the user'
+            if (!email) {
+                return res.status(400).send({
+                    message: 'Email not found'
                 })
+            }
+            res.send(email);
+        } catch (error) {
+            console.error(error);
+            res.status(500).send({
+                message: 'There was a problem trying to get the user'
             })
+        }
     },
-    delete(req, res) {
-        User.destroy({
+
+    async delete(req, res) {
+        try {
+            const email = await User.destroy({
                 where: {
                     email: req.body.email
                 }
             })
-            .then((email) => {
-                if (!email) {
-                    return res.send({
-                        message: 'Email not found'
-                    })
-                }
-                res.send({
-                    message: 'Account successfully removed'
+            if (!email) {
+                return res.status(400).send({
+                    message: 'Email not found'
                 })
+            }
+            res.send({
+                message: 'Account successfully removed'
             })
-            .catch(error => {
-                console.error(error);
-                res.status(500).send({
-                    message: 'There was a problem trying to remove the account'
-                })
+        } catch (error) {
+            console.error(error);
+            res.status(500).send({
+                message: 'There was a problem trying to remove the account'
             })
+        }
     }
 }
-module.exports = userController;
+
+module.exports = UserController;

@@ -42,8 +42,6 @@ const OrderController = {
          });
          const movie = await order.addMovie(req.body.movies)
                 
-         
-
          res.send({
              message: 'Order successfully completed'
          })

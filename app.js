@@ -1,6 +1,8 @@
 const express = require('express'); //Requiere de la librería express
 const app = express();
 const PORT = process.env.PORT || 3000;
+const auth = require('./middleware/auth');
+
 
 const moviesRouter = require('./routers/movieRouter');
 const usersRouter = require('./routers/userRouter');
