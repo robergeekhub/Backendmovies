@@ -4,7 +4,7 @@ const Op = Sequelize.Op;
 
 const MovieController = {
     getAll(req, res) {
-        Movie.findAll()
+        movie.findAll()
             .then(movies => res.send(movies))
             .catch(error => {
                 console.error(error);
