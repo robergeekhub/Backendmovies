@@ -43,7 +43,7 @@ const userController = {
         }
     },
     getByEmail(req, res) {
-        User.findAll({
+        user.findAll({
                 where: {
                     email: req.params.email
                 }, attributes: {
